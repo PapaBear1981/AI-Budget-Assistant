@@ -1,0 +1,56 @@
+# FastAPI and Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database and ORM
+sqlmodel==0.0.14
+alembic==1.12.1
+pysqlcipher3==1.2.0  # For encrypted database support
+
+# Data Processing
+pandas==2.1.3
+numpy==1.25.2
+scikit-learn==1.3.2
+
+# File Processing
+pdfplumber==0.10.3
+pytesseract==0.3.10
+openpyxl==3.1.2
+python-docx==1.1.0
+
+# AI and LLM Integration
+crewai==0.28.8
+langchain==0.1.0
+langchain-openai==0.0.2
+openai==1.3.7
+tiktoken==0.5.2
+
+# Speech Processing
+SpeechRecognition==3.10.0
+pyttsx3==2.90
+pyaudio==0.2.11
+
+# Security and Authentication
+cryptography==41.0.8
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.0
+httpx==0.25.2
+aiofiles==23.2.1
+python-dateutil==2.8.2
+
+# Development and Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+black==23.11.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Optional Local LLM Support
+# ollama==0.1.7  # Uncomment for local LLM support
+# transformers==4.35.2  # Uncomment for Hugging Face models

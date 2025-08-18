@@ -8,6 +8,11 @@ build/
 .flutter-plugins-dependencies
 .metadata
 
+# Flutter SDK (should not be in version control)
+flutter/
+flutter_windows.zip
+*.zip
+
 # Android
 android/app/debug
 android/app/profile

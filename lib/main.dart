@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
-import 'features/dashboard/presentation/pages/dashboard_page.dart';
 
 void main() {
   runApp(
@@ -24,9 +22,9 @@ class AIBudgetAssistantApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'AI Budget Assistant',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.darkTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark, // Force dark theme to match target design
       routerConfig: router,
     );
   }

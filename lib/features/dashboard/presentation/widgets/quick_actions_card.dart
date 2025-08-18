@@ -89,35 +89,84 @@ class _QuickActionsCardState extends State<QuickActionsCard>
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
+      elevation: 6,
+      child: Container(
         padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+              Theme.of(context).colorScheme.surface,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Quick Actions',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.flash_on,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Quick Actions',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 1.5,
-              ),
-              itemCount: _actions.length,
-              itemBuilder: (context, index) {
-                return AnimatedBuilder(
-                  animation: _scaleAnimations[index],
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _scaleAnimations[index].value,
-                      child: _buildActionButton(context, _actions[index]),
+            const SizedBox(height: 20),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                // Calculate responsive grid parameters
+                final screenWidth = constraints.maxWidth;
+                int crossAxisCount = 2;
+                double childAspectRatio = 1.5;
+
+                if (screenWidth > 600) {
+                  crossAxisCount = 4;
+                  childAspectRatio = 1.2;
+                } else if (screenWidth > 400) {
+                  crossAxisCount = 2;
+                  childAspectRatio = 1.5;
+                } else {
+                  crossAxisCount = 2;
+                  childAspectRatio = 1.3;
+                }
+
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: childAspectRatio,
+                  ),
+                  itemCount: _actions.length,
+                  itemBuilder: (context, index) {
+                    return AnimatedBuilder(
+                      animation: _scaleAnimations[index],
+                      builder: (context, child) {
+                        return Transform.scale(
+                          scale: _scaleAnimations[index].value,
+                          child: _buildActionButton(context, _actions[index]),
+                        );
+                      },
                     );
                   },
                 );
@@ -132,37 +181,64 @@ class _QuickActionsCardState extends State<QuickActionsCard>
   Widget _buildActionButton(BuildContext context, QuickAction action) {
     return Material(
       color: Colors.transparent,
+      elevation: 2,
+      borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: () {
           _animateButtonPress(action);
         },
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
+        splashColor: action.color.withOpacity(0.2),
+        highlightColor: action.color.withOpacity(0.1),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: action.color.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: action.color.withOpacity(0.3),
-              width: 1,
+            gradient: LinearGradient(
+              colors: [
+                action.color.withOpacity(0.1),
+                action.color.withOpacity(0.05),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: action.color.withOpacity(0.2),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: action.color.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                action.icon,
-                size: 32,
-                color: action.color,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: action.color.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  action.icon,
+                  size: 28,
+                  color: action.color,
+                ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
                 action.title,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: action.color,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

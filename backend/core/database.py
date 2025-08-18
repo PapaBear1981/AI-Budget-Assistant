@@ -83,6 +83,50 @@ class Message(SQLModelBase, table=True):
 
     conversation: Conversation = Relationship(back_populates="messages")
 
+# Financial data models
+class Transaction(SQLModelBase, table=True):
+    """Financial transaction record"""
+    __tablename__ = "transactions"
+
+    id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True)
+    user_id: UUID = Field(foreign_key="users.id")
+    amount: float = Field(description="Positive for income, negative for expense")
+    description: str
+    category: str = Field(default="Uncategorized")
+    date: date = Field(default_factory=date.today)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    user: User = Relationship()
+
+
+class Budget(SQLModelBase, table=True):
+    """Budget allocation for a category and period"""
+    __tablename__ = "budgets"
+
+    id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True)
+    user_id: UUID = Field(foreign_key="users.id")
+    category: str
+    limit: float = Field(description="Spending limit for the period")
+    period: str = Field(default="monthly")
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    user: User = Relationship()
+
+
+class Bill(SQLModelBase, table=True):
+    """Recurring or one-time bill"""
+    __tablename__ = "bills"
+
+    id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True)
+    user_id: UUID = Field(foreign_key="users.id")
+    name: str
+    amount: float
+    due_date: date
+    is_recurring: bool = Field(default=False)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+    user: User = Relationship()
+
 class DatabaseManager:
     """Manages database connections and encryption"""
     

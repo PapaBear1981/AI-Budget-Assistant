@@ -13,6 +13,18 @@ flutter/
 flutter_windows.zip
 *.zip
 
+# Flutter build artifacts and cache
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.metadata
+.pub-cache/
+.pub/
+*.dill
+*.track.dill
+
 # Android
 android/app/debug
 android/app/profile
@@ -113,3 +125,20 @@ out/
 *.key
 *.pem
 secrets/
+
+# Large files and archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.dmg
+*.iso
+*.exe
+*.msi
+
+# Cache and temporary build files
+*.dill
+*.track.dill
+cache.dill*
+*.incremental
+*.incremental.dill
